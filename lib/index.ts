@@ -1,10 +1,7 @@
 import { cloneDeep } from "./utils";
 import { processTransform } from "./process";
 
-export const createTransform = (
-  json: Object,
-  options: TransformOptions = {}
-) => {
+export const createTransform = (options: TransformOptions = {}) => {
   const { clone = true } = options;
 
   const context = {};
@@ -19,7 +16,7 @@ export const createTransform = (
       providers.push(provider);
       return factory;
     },
-    done: () => {
+    transform: (json: Object) => {
       const data = clone ? cloneDeep(json) : json;
 
       processTransform(data, { providers, context });
