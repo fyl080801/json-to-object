@@ -18,5 +18,9 @@
   "homepage": "https://github.com/fyl080801/json-to-object#readme",
   "devDependencies": {
     "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.15",
+    "@types/lodash-es": "^4.17.3"
   }
 }

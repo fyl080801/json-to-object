@@ -1,5 +1,5 @@
-import { cloneDeep } from "./utils";
-import { processTransform } from "./process";
+import { cloneDeep } from 'lodash-es';
+import { processTransform } from './process';
 
 export const createTransform = (options: TransformOptions = {}) => {
   const { clone = true } = options;
