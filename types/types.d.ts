@@ -13,10 +13,10 @@ declare interface TransformProvider {
    */
   deal: (prop: any, owner: Object | Array<any>, context: any) => void | boolean;
 
-  /**
-   * 对象转换后是否将转换后的值作为下级转换的对象
-   */
-  chainNext: boolean;
+  // /**
+  //  * 对象转换后是否将转换后的值作为下级转换的对象
+  //  */
+  // chainNext?: boolean;
 }
 
 declare interface ProcessOptions {
@@ -32,7 +32,7 @@ declare interface TransformInstance {
 }
 
 declare type TransformFactory = (
-  options: TransformOptions
+  options?: TransformOptions
 ) => TransformInstance;
 
 declare type ProcessFactory = (options: ProcessOptions) => ForeachCallback;
