@@ -5,7 +5,8 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.common.js",
   "scripts": {
-    "dist": "rm -rf ./dist && NODE_ENV=production webpack -p --config build/webpack.config.prod.js"
+    "dist": "rm -rf ./dist && NODE_ENV=production webpack -p --config build/webpack.config.prod.js",
+    "prepublishOnly": "npm run dist"
   },
   "repository": {
     "type": "git",
