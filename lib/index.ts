@@ -4,10 +4,9 @@ const process: ProcessFactory = (options) => {
   const { context, providers } = options;
 
   return (data, prop, owner) => {
+    // data - 原始属性值
     const noForeach =
-      !data ||
-      (typeof data !== 'object' &&
-        Object.toString.call(data) === '[Object Array]');
+      !data || (typeof data !== 'object' && !Array.isArray(data));
 
     const transform = providers.find((provider) =>
       provider.getter(prop, owner)
@@ -16,6 +15,7 @@ const process: ProcessFactory = (options) => {
     let result;
 
     if (transform) {
+      // 转换相当于处理 owner 里的属性值
       result = transform.deal(prop, owner, context);
     }
 
@@ -24,8 +24,10 @@ const process: ProcessFactory = (options) => {
     }
 
     if (result !== false) {
-      // forEach(trans && trans.convert ? owner[prop] : data, process(options));
-      forEach(data, process(options));
+      forEach(
+        transform && transform.chainNext ? owner[prop] : data,
+        process(options)
+      );
     }
   };
 };
@@ -34,22 +36,28 @@ const processTransform = (data: Object, options: ProcessOptions) => {
   forEach(data, process(options));
 };
 
-export const createTransform = (options: TransformOptions = {}) => {
+export const createTransform: TransformFactory = (
+  options: TransformOptions = {}
+) => {
   const { clone = true } = options;
 
-  const context = {};
+  let context = {};
   const providers: TransformProvider[] = [];
 
-  const factory = {
-    useContext: (data: Object) => {
+  const instance: TransformInstance = {
+    mergeContext: (data) => {
       Object.assign(context, data);
-      return factory;
+      return instance;
     },
-    useProvider: (provider: TransformProvider) => {
+    useContext: (data) => {
+      context = data;
+      return instance;
+    },
+    useProvider: (provider) => {
       providers.push(provider);
-      return factory;
+      return instance;
     },
-    transform: (json: Object) => {
+    transform: (json) => {
       const data = clone ? cloneDeep(json) : json;
 
       processTransform(data, { providers, context });
@@ -58,5 +66,5 @@ export const createTransform = (options: TransformOptions = {}) => {
     },
   };
 
-  return factory;
+  return instance;
 };
