@@ -11,12 +11,11 @@ declare interface TransformProvider {
   /**
    *
    */
-  deal: (prop: any, owner: Object | Array<any>, context: any) => void | boolean;
-
-  // /**
-  //  * 对象转换后是否将转换后的值作为下级转换的对象
-  //  */
-  // chainNext?: boolean;
+  deal: (
+    prop: any,
+    owner: Object | Array<any>,
+    options: ProcessOptions
+  ) => void | boolean;
 }
 
 declare interface ProcessOptions {

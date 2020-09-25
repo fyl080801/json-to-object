@@ -1,7 +1,7 @@
 import { cloneDeep, forEach } from 'lodash-es';
 
 const process: ProcessFactory = (options) => {
-  const { context, providers } = options;
+  const { providers } = options;
 
   return (data, prop, owner) => {
     const transform = providers.find((provider) =>
@@ -9,7 +9,7 @@ const process: ProcessFactory = (options) => {
     );
 
     // 转换相当于处理 owner 里的属性值
-    const result = transform ? transform.deal(prop, owner, context) : null;
+    const result = transform ? transform.deal(prop, owner, options) : null;
 
     if (!data || (typeof data !== 'object' && !Array.isArray(data))) {
       return;
