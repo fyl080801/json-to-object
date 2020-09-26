@@ -1,7 +1,7 @@
 {
   "name": "json-to-object",
   "version": "1.2.0",
-  "description": "",
+  "description": "可自定义过程的 json 转换对象",
   "main": "dist/index.umd.js",
   "module": "dist/index.common.js",
   "scripts": {

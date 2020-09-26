@@ -25,12 +25,13 @@ const transform = createTransform()
     getter: (prop, owner) => {
       return typeof owner[prop] === 'object' && owner[prop].$type === 'bind';
     },
-    deal: (prop, owner, context) => {
-      const options = owner[prop];
+    deal: (prop, owner, options) => {
+      const value = owner[prop];
+      const { context } = options;
 
       Object.defineProperty(owner, prop, {
         get() {
-          return context[options.$source];
+          return context[value.$source];
         },
       });
     },
@@ -40,12 +41,12 @@ const transform = createTransform()
     getter: (prop, owner) => {
       return typeof owner[prop] === 'object' && owner[prop].$type === 'on';
     },
-    deal: (prop, owner, context) => {
-      const options = owner[prop];
+    deal: (prop, owner, options) => {
+      const value = owner[prop];
 
       Object.defineProperty(owner, prop, {
         get() {
-          return new Function(options.$result);
+          return new Function(value.$result);
         },
       });
     },
