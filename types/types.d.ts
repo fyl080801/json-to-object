@@ -21,12 +21,14 @@ declare interface TransformProvider {
 declare interface ProcessOptions {
   providers: TransformProvider[];
   context: Object;
+  ref: any;
 }
 
 declare interface TransformInstance {
   mergeContext: (context: Object) => TransformInstance;
   useContext: (context: Object) => TransformInstance;
   useProvider: (provider: TransformProvider) => TransformInstance;
+  useRef: (reference: any) => TransformInstance;
   transform: (json: Object | Array<any>) => Object | Array<any>;
 }
 
