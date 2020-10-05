@@ -14,21 +14,20 @@ declare interface TransformProvider {
   deal: (
     prop: any,
     owner: Object | Array<any>,
-    options: ProcessOptions
+    options: ProcessOptions & Object
   ) => void | boolean;
 }
 
 declare interface ProcessOptions {
   providers: TransformProvider[];
   context: Object;
-  ref: any;
 }
 
 declare interface TransformInstance {
   mergeContext: (context: Object) => TransformInstance;
   useContext: (context: Object) => TransformInstance;
   useProvider: (provider: TransformProvider) => TransformInstance;
-  useRef: (reference: any) => TransformInstance;
+  useOptions: (options: any) => TransformInstance;
   transform: (json: Object | Array<any>) => Object | Array<any>;
 }
 

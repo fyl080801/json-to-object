@@ -29,7 +29,7 @@ export const createTransform: TransformFactory = (options) => {
   const { clone = true } = options || {};
 
   let context = {};
-  let ref = {};
+  let extend = {};
   const providers: TransformProvider[] = [];
 
   const instance: TransformInstance = {
@@ -45,14 +45,14 @@ export const createTransform: TransformFactory = (options) => {
       providers.push(provider);
       return instance;
     },
-    useRef: (reference) => {
-      ref = reference;
+    useOptions: (options) => {
+      extend = options;
       return instance;
     },
     transform: (json) => {
       const data = clone ? cloneDeep(json) : json;
 
-      processTransform(data, { providers, context, ref });
+      processTransform(data, { ...extend, providers, context });
 
       return data;
     },
