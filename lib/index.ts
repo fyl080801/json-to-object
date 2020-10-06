@@ -1,4 +1,11 @@
 import { cloneDeep, forEach } from 'lodash-es';
+import {
+  ProcessFactory,
+  ProcessOptions,
+  TransformFactory,
+  TransformInstance,
+  ITransformProvider,
+} from 'types';
 
 const process: ProcessFactory = (options) => {
   const { providers } = options;
@@ -30,7 +37,7 @@ export const createTransform: TransformFactory = (options) => {
 
   let context = {};
   let extend = {};
-  const providers: TransformProvider[] = [];
+  const providers: ITransformProvider[] = [];
 
   const instance: TransformInstance = {
     mergeContext: (data) => {
