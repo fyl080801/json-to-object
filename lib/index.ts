@@ -4,19 +4,34 @@ import {
   ProcessOptions,
   TransformFactory,
   TransformInstance,
-  ITransformProvider,
+  TransformProvider,
 } from 'types';
+
+const findTransform = (
+  providers: TransformProvider[],
+  prop: any,
+  owner: any
+) => {
+  let transform = null;
+
+  for (let i = 0; i < providers.length; i++) {
+    transform = providers[i](prop, owner);
+    if (transform) {
+      break;
+    }
+  }
+
+  return transform;
+};
 
 const process: ProcessFactory = (options) => {
   const { providers } = options;
 
   return (data, prop, owner) => {
-    const transform = providers.find((provider) =>
-      provider.getter(prop, owner)
-    );
+    const transform = findTransform(providers, prop, owner);
 
     // 转换相当于处理 owner 里的属性值
-    const result = transform ? transform.deal(prop, owner, options) : null;
+    const result = transform ? transform(prop, owner, options) : null;
 
     if (!data || (typeof data !== 'object' && !Array.isArray(data))) {
       return;
@@ -37,7 +52,7 @@ export const createTransform: TransformFactory = (options) => {
 
   let context = {};
   let extend = {};
-  const providers: ITransformProvider[] = [];
+  const providers: TransformProvider[] = [];
 
   const instance: TransformInstance = {
     mergeContext: (data) => {
